@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://sprites/Sprites/HPbar/back.png" type="Texture" id=1]
+[ext_resource path="res://sprites/Sprites/HPbar/border.png" type="Texture" id=2]
+[ext_resource path="res://sprites/Sprites/HPbar/progression.png" type="Texture" id=3]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node
+
+onready var health_bar = $HealthBar
+
+func _on_health_updated(health, amount):
+	health_bar.value = health
+	
+func _on_max_health_updated(max_health):
+	health_bar.value = max_health
+"
+
+[node name="HealthBar" type="Node"]
+script = SubResource( 1 )
+
+[node name="HealthBar" type="TextureProgress" parent="."]
+margin_left = -10.0
+margin_top = -10.0
+margin_right = 250.0
+margin_bottom = 105.0
+rect_scale = Vector2( 1, 0.5 )
+value = 100.0
+texture_under = ExtResource( 1 )
+texture_over = ExtResource( 2 )
+texture_progress = ExtResource( 3 )
+tint_progress = Color( 0.0588235, 0.576471, 0, 1 )

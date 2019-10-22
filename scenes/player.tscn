@@ -1,0 +1,245 @@
+[gd_scene load_steps=36 format=2]
+
+[ext_resource path="res://scripts/main_char.gd" type="Script" id=1]
+[ext_resource path="res://sprites/Sprites/Noaz/fall.png" type="Texture" id=2]
+[ext_resource path="res://sprites/Sprites/Noaz/jump0.png" type="Texture" id=3]
+[ext_resource path="res://sprites/Sprites/Noaz/drop.png" type="Texture" id=4]
+[ext_resource path="res://sprites/Sprites/Noaz/charge.png" type="Texture" id=5]
+[ext_resource path="res://sprites/Sprites/Noaz/run0.png" type="Texture" id=6]
+[ext_resource path="res://sprites/Sprites/Noaz/run1.png" type="Texture" id=7]
+[ext_resource path="res://sprites/Sprites/Noaz/run2.png" type="Texture" id=8]
+[ext_resource path="res://sprites/Sprites/Noaz/run3.png" type="Texture" id=9]
+[ext_resource path="res://sprites/Sprites/Noaz/idle.png" type="Texture" id=10]
+[ext_resource path="res://sprites/Sprites/Noaz/jump1.png" type="Texture" id=11]
+[ext_resource path="res://sprites/Sprites/Fire/frame_0_delay-0.1s.png" type="Texture" id=12]
+[ext_resource path="res://sprites/Sprites/Fire/frame_1_delay-0.1s.png" type="Texture" id=13]
+[ext_resource path="res://sprites/Sprites/Fire/frame_2_delay-0.1s.png" type="Texture" id=14]
+[ext_resource path="res://sprites/Sprites/Fire/frame_3_delay-0.1s.png" type="Texture" id=15]
+[ext_resource path="res://sprites/Sprites/Fire/frame_4_delay-0.1s.png" type="Texture" id=16]
+[ext_resource path="res://sprites/Sprites/Fire/frame_5_delay-0.1s.png" type="Texture" id=17]
+[ext_resource path="res://sprites/Sprites/Fire/Fire_charge/charge01.png" type="Texture" id=18]
+[ext_resource path="res://sprites/Sprites/Fire/Fire_charge/charge04.png" type="Texture" id=19]
+[ext_resource path="res://sprites/Sprites/Fire/Fire_charge/charge02.png" type="Texture" id=20]
+[ext_resource path="res://sprites/Sprites/Fire/Fire_charge/charge03.png" type="Texture" id=21]
+[ext_resource path="res://sprites/Sprites/fireLightBlue.png" type="Texture" id=22]
+[ext_resource path="res://sprites/Sprites/fire_light2.png" type="Texture" id=23]
+[ext_resource path="res://scenes/HealthBar.tscn" type="PackedScene" id=24]
+[ext_resource path="res://sprites/Sprites/Arrows/ButtonArrowRightSprite.png" type="Texture" id=25]
+[ext_resource path="res://icon.png" type="Texture" id=26]
+[ext_resource path="res://scenes/ScreenShake.tscn" type="PackedScene" id=27]
+[ext_resource path="res://sprites/Sprites/Background/night_sky.jpg" type="Texture" id=28]
+[ext_resource path="res://sprites/Sprites/Background/thumb-350-939716.png" type="Texture" id=29]
+[ext_resource path="res://Sounds/fireball.wav" type="AudioStream" id=30]
+[ext_resource path="res://Sounds/fire_fly.wav" type="AudioStream" id=31]
+[ext_resource path="res://Sounds/fire_charge.wav" type="AudioStream" id=32]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ) ],
+"loop": true,
+"name": "Fall",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 3 ) ],
+"loop": false,
+"name": "DoubleJump",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 4 ) ],
+"loop": true,
+"name": "Drop",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ) ],
+"loop": true,
+"name": "Charge",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 6 ), ExtResource( 7 ), ExtResource( 8 ), ExtResource( 9 ) ],
+"loop": true,
+"name": "Run",
+"speed": 8.0
+}, {
+"frames": [ ExtResource( 10 ) ],
+"loop": true,
+"name": "Idle",
+"speed": 2.0
+}, {
+"frames": [ ExtResource( 3 ), ExtResource( 11 ) ],
+"loop": false,
+"name": "Jump",
+"speed": 10.0
+} ]
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 12 ), ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ) ],
+"loop": true,
+"name": "fireAnim",
+"speed": 10.0
+}, {
+"frames": [ ExtResource( 18 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 21 ) ],
+"loop": true,
+"name": "fireCharge",
+"speed": 10.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=3]
+radius = 14.0
+height = 28.0
+
+[node name="Player" type="KinematicBody2D"]
+z_index = 2
+z_as_relative = false
+script = ExtResource( 1 )
+
+[node name="Sprite" type="AnimatedSprite" parent="."]
+editor/display_folded = true
+scale = Vector2( 0.5, 0.5 )
+z_index = 2
+z_as_relative = false
+frames = SubResource( 1 )
+animation = "Charge"
+
+[node name="fire" type="AnimatedSprite" parent="Sprite"]
+editor/display_folded = true
+visible = false
+scale = Vector2( 0.4, 0.4 )
+z_index = -1
+z_as_relative = false
+frames = SubResource( 2 )
+animation = "fireCharge"
+
+[node name="light_around" type="Light2D" parent="Sprite/fire"]
+scale = Vector2( 2, 2 )
+texture = ExtResource( 22 )
+energy = 2.0
+shadow_enabled = true
+shadow_color = Color( 0, 0, 0, 1 )
+shadow_filter = 3
+shadow_filter_smooth = 6.9
+
+[node name="central_light" type="Light2D" parent="Sprite/fire"]
+scale = Vector2( 2, 2 )
+texture = ExtResource( 23 )
+energy = 2.0
+shadow_enabled = true
+shadow_color = Color( 0, 0, 0, 1 )
+shadow_gradient_length = 484.5
+shadow_filter = 3
+shadow_filter_smooth = 8.9
+
+[node name="Light2D" type="Light2D" parent="Sprite"]
+texture = ExtResource( 23 )
+texture_scale = 8.0
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 2 )
+shape = SubResource( 3 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( -0.875, 0 )
+current = true
+zoom = Vector2( 1.5, 1.5 )
+process_mode = 0
+drag_margin_h_enabled = false
+drag_margin_v_enabled = false
+smoothing_enabled = true
+smoothing_speed = 15.0
+
+[node name="HUD" type="CanvasLayer" parent="Camera2D"]
+
+[node name="HealthBar" parent="Camera2D/HUD" instance=ExtResource( 24 )]
+
+[node name="Gamepad" type="Node2D" parent="Camera2D/HUD"]
+editor/display_folded = true
+position = Vector2( 320, 192 )
+z_index = 3
+
+[node name="ButtonUP" type="TouchScreenButton" parent="Camera2D/HUD/Gamepad"]
+position = Vector2( -256, 96.0002 )
+rotation = -1.5708
+scale = Vector2( 0.1, 0.1 )
+normal = ExtResource( 25 )
+action = "ui_up"
+
+[node name="ButtonDOWN" type="TouchScreenButton" parent="Camera2D/HUD/Gamepad"]
+position = Vector2( -230, 128 )
+rotation = 1.5708
+scale = Vector2( 0.1, 0.1 )
+normal = ExtResource( 25 )
+action = "ui_down"
+
+[node name="ButtonLEFT" type="TouchScreenButton" parent="Camera2D/HUD/Gamepad"]
+position = Vector2( -267.1, 128 )
+rotation = 3.14159
+scale = Vector2( 0.1, 0.1 )
+normal = ExtResource( 25 )
+action = "ui_left"
+
+[node name="ButtonRIGHT" type="TouchScreenButton" parent="Camera2D/HUD/Gamepad"]
+position = Vector2( -220, 102 )
+scale = Vector2( 0.1, 0.1 )
+z_index = 3
+normal = ExtResource( 25 )
+action = "ui_right"
+
+[node name="ButtonFIRE" type="TouchScreenButton" parent="Camera2D/HUD/Gamepad"]
+position = Vector2( 230, 50 )
+scale = Vector2( 0.2, 0.2 )
+normal = ExtResource( 12 )
+action = "ui_accept"
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="Camera2D/HUD/Gamepad"]
+position = Vector2( -310, -144.5 )
+scale = Vector2( 0.5, 0.5 )
+normal = ExtResource( 26 )
+action = "ui_reset"
+
+[node name="SlowButton" type="TouchScreenButton" parent="Camera2D/HUD/Gamepad"]
+action = "ui_slow"
+
+[node name="ScreenShake" parent="Camera2D" instance=ExtResource( 27 )]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+offset = Vector2( -220, -50 )
+transform = Transform2D( 1, 0, 0, 1, -220, -50 )
+scroll_offset = Vector2( 0.5, 0.5 )
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.1, 0.1 )
+motion_mirroring = Vector2( 390, 220 )
+
+[node name="sky" type="Sprite" parent="ParallaxBackground"]
+position = Vector2( 220, 60 )
+scale = Vector2( 0.815287, 0.79638 )
+texture = ExtResource( 28 )
+centered = false
+
+[node name="city" type="Sprite" parent="ParallaxBackground"]
+visible = false
+position = Vector2( 220, 60 )
+scale = Vector2( 1.82857, 1.60731 )
+texture = ExtResource( 29 )
+centered = false
+
+[node name="Hand" type="Position2D" parent="."]
+position = Vector2( 10, 10 )
+
+[node name="fireball_sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 30 )
+volume_db = -31.301
+pitch_scale = 0.8
+
+[node name="fire_fly_sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 31 )
+volume_db = -30.0
+pitch_scale = 0.7
+
+[node name="fire_charge_sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 32 )
+volume_db = -20.0
+[connection signal="pressed" from="Camera2D/HUD/Gamepad/ButtonUP" to="." method="_on_ButtonUP_pressed"]
+[connection signal="released" from="Camera2D/HUD/Gamepad/ButtonUP" to="." method="_on_ButtonUP_released"]

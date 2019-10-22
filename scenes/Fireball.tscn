@@ -1,0 +1,89 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://sprites/Sprites/Fire/frame_1_delay-0.1s.png" type="Texture" id=1]
+[ext_resource path="res://sprites/Sprites/Fire/frame_2_delay-0.1s.png" type="Texture" id=2]
+[ext_resource path="res://sprites/Sprites/Fire/frame_3_delay-0.1s.png" type="Texture" id=3]
+[ext_resource path="res://sprites/Sprites/Fire/frame_4_delay-0.1s.png" type="Texture" id=4]
+[ext_resource path="res://sprites/Sprites/Fire/frame_5_delay-0.1s.png" type="Texture" id=5]
+[ext_resource path="res://sprites/Sprites/fire_light2.png" type="Texture" id=6]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+var speed = 400
+var velocity = Vector2()
+var atirar = false
+var direction = 1
+onready var fire_color = get_node(\"CollisionShape2D2/Light2D\")
+
+	
+func _on_VisibilityNotifier2D_screen_exited():
+	queue_free()
+	
+
+func _physics_process(delta):
+	if self.atirar:
+		velocity.x = speed * delta * self.direction
+		translate(velocity)
+		if self.direction == -1:
+			$fireAnim.flip_v = true
+		else:
+			$fireAnim.flip_v = false
+		$fireAnim.play(\"fireball\")
+	
+
+func _on_fire_shoot_body_exited(body):
+	if body.name != \"Player\":
+		queue_free()
+"
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 1 ), ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "fireball",
+"speed": 20.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=3]
+radius = 99.9996
+
+[sub_resource type="RectangleShape2D" id=4]
+
+[node name="fire_shoot" type="KinematicBody2D"]
+position = Vector2( 20, 10 )
+rotation = -1.5708
+scale = Vector2( 0.1, 0.1 )
+collision/safe_margin = 0.001
+script = SubResource( 1 )
+
+[node name="fireAnim" type="AnimatedSprite" parent="."]
+frames = SubResource( 2 )
+animation = "fireball"
+
+[node name="fire_shoot" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="fire_shoot"]
+position = Vector2( 0, 100 )
+shape = SubResource( 3 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 50 )
+rotation = -7.27596e-013
+scale = Vector2( 10, 15 )
+z_as_relative = false
+shape = SubResource( 4 )
+
+[node name="Light2D" type="Light2D" parent="CollisionShape2D2"]
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 6 )
+energy = 2.0
+shadow_enabled = true
+shadow_color = Color( 0, 0, 0, 1 )
+shadow_gradient_length = 88.1
+shadow_filter = 3
+shadow_filter_smooth = 4.8
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+[connection signal="body_exited" from="fire_shoot" to="." method="_on_fire_shoot_body_exited"]
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
