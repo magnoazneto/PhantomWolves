@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/jump1.png-d3709cea67a7e47613d2a591a883441c.stex"
+path="res://.import/wallpaperLobby.jpeg-c5e434590e2b40ce4a871b3eebb42ea1.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/Sprites/NoazWhite/jump1.png"
-dest_files=[ "res://.import/jump1.png-d3709cea67a7e47613d2a591a883441c.stex" ]
+source_file="res://sprites/Sprites/Background/wallpaperLobby.jpeg"
+dest_files=[ "res://.import/wallpaperLobby.jpeg-c5e434590e2b40ce4a871b3eebb42ea1.stex" ]
 
 [params]
 

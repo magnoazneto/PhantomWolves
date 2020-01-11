@@ -12,29 +12,44 @@ script/source = "extends Node2D
 
 var speed = 400
 var velocity = Vector2()
-var atirar = false
-var direction = 1
-onready var fire_color = get_node(\"CollisionShape2D2/Light2D\")
+var shoot = false setget set_shoot
+var direction = 1 setget set_direction, get_direction
 
-	
-func _on_VisibilityNotifier2D_screen_exited():
-	queue_free()
-	
+func _ready():
+	$auto_destruct_Timer.start()
 
 func _physics_process(delta):
-	if self.atirar:
-		velocity.x = speed * delta * self.direction
+	if self.shoot:
+		velocity.x = speed * delta * get_direction()
 		translate(velocity)
-		if self.direction == -1:
-			$fireAnim.flip_v = true
-		else:
-			$fireAnim.flip_v = false
+		$fireAnim.flip_v = true if get_direction() == -1 else false
 		$fireAnim.play(\"fireball\")
-	
+
+
+func set_shoot(mode : bool):
+	shoot = mode
+
+func set_direction(module: int):
+	direction = module
+
+func get_direction():
+	return direction
 
 func _on_fire_shoot_body_exited(body):
 	if body.name != \"Player\":
 		queue_free()
+	
+	if body.is_in_group(\"players\"):
+		var target_player = get_parent().get_node(body.name)
+		target_player.decrease_life(15)
+
+func set_fire_color(red, green, blue):
+	$CollisionShape2D2/Light2D.color.r = red
+	$CollisionShape2D2/Light2D.color.g = green
+	$CollisionShape2D2/Light2D.color.b = blue
+
+func _on_auto_destruct_Timer_timeout():
+	queue_free()
 "
 
 [sub_resource type="SpriteFrames" id=2]
@@ -69,7 +84,7 @@ shape = SubResource( 3 )
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 50 )
-rotation = -7.27596e-013
+rotation = -7.27596e-13
 scale = Vector2( 10, 15 )
 z_as_relative = false
 shape = SubResource( 4 )
@@ -85,5 +100,8 @@ shadow_filter = 3
 shadow_filter_smooth = 4.8
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+
+[node name="auto_destruct_Timer" type="Timer" parent="."]
+wait_time = 4.0
 [connection signal="body_exited" from="fire_shoot" to="." method="_on_fire_shoot_body_exited"]
-[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
+[connection signal="timeout" from="auto_destruct_Timer" to="." method="_on_auto_destruct_Timer_timeout"]

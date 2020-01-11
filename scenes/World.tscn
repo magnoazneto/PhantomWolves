@@ -1,53 +1,44 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://scripts/game.gd" type="Script" id=1]
-[ext_resource path="res://scenes/player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://jungleDirtTileSet.tres" type="TileSet" id=3]
-[ext_resource path="res://icon.png" type="Texture" id=4]
-[ext_resource path="res://scenes/Enemy.tscn" type="PackedScene" id=5]
-[ext_resource path="res://scenes/magic_boost.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Sounds/Fantasy_Game_Background (online-audio-converter.com) (1).wav" type="AudioStream" id=7]
-[ext_resource path="res://scenes/text_back.tscn" type="PackedScene" id=8]
-[ext_resource path="res://scenes/wolf_counter.tscn" type="PackedScene" id=9]
-[ext_resource path="res://scenes/NotifyArea.tscn" type="PackedScene" id=10]
-[ext_resource path="res://scenes/CheckPoint.tscn" type="PackedScene" id=11]
-[ext_resource path="res://scenes/CureFire.tscn" type="PackedScene" id=12]
+[ext_resource path="res://jungleDirtTileSet.tres" type="TileSet" id=2]
+[ext_resource path="res://icon.png" type="Texture" id=3]
+[ext_resource path="res://scenes/Enemy.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/magic_boost.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Sounds/Fantasy_Game_Background (online-audio-converter.com) (1).wav" type="AudioStream" id=6]
+[ext_resource path="res://scenes/text_back.tscn" type="PackedScene" id=7]
+[ext_resource path="res://scenes/wolf_counter.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scenes/NotifyArea.tscn" type="PackedScene" id=9]
+[ext_resource path="res://scenes/CheckPoint.tscn" type="PackedScene" id=10]
+[ext_resource path="res://scenes/CureFire.tscn" type="PackedScene" id=11]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 16, 16 )
 
 [sub_resource type="Environment" id=2]
 background_mode = 4
-background_energy = 0.0
-fog_color = Color( 0.0862745, 0.211765, 0.341176, 1 )
-fog_sun_color = Color( 0.345098, 0.247059, 0.0470588, 1 )
-fog_sun_amount = 1.0
-ssao_enabled = true
-ssao_intensity = 2.0
+background_canvas_max_layer = 3
+ambient_light_color = Color( 0.92549, 0.878431, 0.878431, 1 )
+ambient_light_energy = 2.0
+fog_enabled = true
 glow_enabled = true
 glow_levels/1 = true
 glow_levels/2 = true
-glow_levels/4 = true
-glow_levels/6 = true
-glow_levels/7 = true
-glow_intensity = 4.0
-glow_strength = 0.6
+glow_levels/5 = false
+glow_intensity = 1.0
+glow_strength = 0.8
 glow_blend_mode = 1
-glow_hdr_luminance_cap = 1.0
-glow_hdr_scale = 4.0
-adjustment_enabled = true
+glow_hdr_threshold = 1.5
+glow_hdr_luminance_cap = 6.0
 
 [node name="World" type="Node"]
 script = ExtResource( 1 )
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color( 0.0784314, 0.0156863, 0.0156863, 1 )
-
-[node name="Player" parent="." instance=ExtResource( 2 )]
-position = Vector2( 202.875, 192 )
+color = Color( 0.145098, 0.027451, 0.027451, 1 )
 
 [node name="TileMap" type="TileMap" parent="."]
-tile_set = ExtResource( 3 )
+tile_set = ExtResource( 2 )
 cell_size = Vector2( 32, 32 )
 collision_use_kinematic = true
 collision_bounce = 1.0
@@ -71,53 +62,53 @@ shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="WorldComplete"]
 position = Vector2( 16, -16 )
-texture = ExtResource( 4 )
+texture = ExtResource( 3 )
 
 [node name="Enemys" type="Node" parent="."]
-editor/display_folded = true
 
-[node name="Enemy" parent="Enemys" instance=ExtResource( 5 )]
+[node name="Enemy" parent="Enemys" instance=ExtResource( 4 )]
 position = Vector2( 640, 254 )
 
-[node name="Enemy2" parent="Enemys" instance=ExtResource( 5 )]
+[node name="Enemy2" parent="Enemys" instance=ExtResource( 4 )]
 position = Vector2( 896, 1120 )
 
-[node name="Enemy3" parent="Enemys" instance=ExtResource( 5 )]
+[node name="Enemy3" parent="Enemys" instance=ExtResource( 4 )]
 position = Vector2( 1248, 608 )
 
-[node name="Enemy4" parent="Enemys" instance=ExtResource( 5 )]
+[node name="Enemy4" parent="Enemys" instance=ExtResource( 4 )]
 position = Vector2( 3648, 2464 )
 
-[node name="Enemy5" parent="Enemys" instance=ExtResource( 5 )]
+[node name="Enemy5" parent="Enemys" instance=ExtResource( 4 )]
 position = Vector2( 2592, 4128 )
 
-[node name="Enemy6" parent="Enemys" instance=ExtResource( 5 )]
+[node name="Enemy6" parent="Enemys" instance=ExtResource( 4 )]
 position = Vector2( 5792, 448 )
 
-[node name="magic_boost" parent="." instance=ExtResource( 6 )]
+[node name="magic_boost" parent="." instance=ExtResource( 5 )]
 
 [node name="music_theme" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 7 )
+stream = ExtResource( 6 )
 volume_db = -25.0
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
-[node name="text_back" parent="HUD" instance=ExtResource( 8 )]
+[node name="text_back" parent="HUD" instance=ExtResource( 7 )]
 
-[node name="wolf_counter" parent="HUD" instance=ExtResource( 9 )]
+[node name="wolf_counter" parent="HUD" instance=ExtResource( 8 )]
+visible = false
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="HUD"]
 environment = SubResource( 2 )
 
-[node name="NotifyArea" parent="." instance=ExtResource( 10 )]
+[node name="NotifyArea" parent="." instance=ExtResource( 9 )]
 position = Vector2( 7200, 3136 )
 
-[node name="NotifyArea2" parent="." instance=ExtResource( 10 )]
+[node name="NotifyArea2" parent="." instance=ExtResource( 9 )]
 position = Vector2( 5600, 2444.85 )
 
-[node name="CheckPoint" parent="." instance=ExtResource( 11 )]
+[node name="CheckPoint" parent="." instance=ExtResource( 10 )]
 
-[node name="CureFire" parent="." instance=ExtResource( 12 )]
+[node name="CureFire" parent="." instance=ExtResource( 11 )]
 z_index = 2
 [connection signal="body_entered" from="WorldComplete" to="." method="_on_WorldComplete_body_entered"]
 [connection signal="body_entered" from="magic_boost" to="." method="_on_magic_boost_body_entered"]

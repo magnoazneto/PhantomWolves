@@ -1,0 +1,74 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scripts/lobby.gd" type="Script" id=1]
+[ext_resource path="res://sprites/Sprites/Background/wallpaperLobby.jpeg" type="Texture" id=2]
+
+[node name="Lobby" type="Control"]
+script = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 318.868, 179.024 )
+scale = Vector2( 2.29923, 1.95374 )
+texture = ExtResource( 2 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 163.996
+margin_top = 90.8412
+margin_right = 478.996
+margin_bottom = 210.841
+
+[node name="Title2" type="Label" parent="VBoxContainer"]
+margin_right = 315.0
+margin_bottom = 14.0
+text = "Lobby"
+align = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 18.0
+margin_right = 315.0
+margin_bottom = 42.0
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+margin_top = 5.0
+margin_right = 76.0
+margin_bottom = 19.0
+text = "Your name: "
+
+[node name="TextField" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
+margin_left = 80.0
+margin_right = 315.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 46.0
+margin_right = 315.0
+margin_bottom = 66.0
+
+[node name="JoinButton" type="Button" parent="VBoxContainer/HBoxContainer2"]
+margin_right = 155.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Join"
+
+[node name="CreateButton" type="Button" parent="VBoxContainer/HBoxContainer2"]
+margin_left = 159.0
+margin_right = 315.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Create"
+
+[node name="winner_name" type="Label" parent="VBoxContainer"]
+margin_top = 70.0
+margin_right = 315.0
+margin_bottom = 84.0
+[connection signal="text_changed" from="VBoxContainer/HBoxContainer/TextField" to="." method="_on_TextField_text_changed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer2/JoinButton" to="." method="_on_JoinButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer2/CreateButton" to="." method="_on_CreateButton_pressed"]
