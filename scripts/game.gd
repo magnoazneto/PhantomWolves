@@ -17,6 +17,8 @@ func _ready():
 
 func _on_player_disconnected(id):
 	get_node(str(id)).queue_free()
+	if Network.has_winner:
+		get_tree().change_scene('res://scenes/Lobby.tscn')
 
 func _on_server_disconnected():
 	get_tree().change_scene('res://scenes/Lobby.tscn')
@@ -29,6 +31,12 @@ func _on_WorldComplete_body_entered(body):
 		if not Network.has_winner:
 			Network.winner_name = this_player.get_node("HealthBar/Nickname").text
 			Network.has_winner = true
+			spawn_text.start(this_player.get_node("HealthBar/Nickname").text + " has won the game!")
+			var peer = NetworkedMultiplayerENet.new()
+			if is_network_master():
+				peer.close_connection()
+			else:
+				peer.disconnect_peer(get_tree().get_network_unique_id())
 		get_tree().change_scene("res://scenes/Lobby.tscn")
 	else:
 		this_player.get_node("Camera2D/ScreenShake").start(0.2, 40)

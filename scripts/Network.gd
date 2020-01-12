@@ -40,6 +40,8 @@ func _connected_to_server():
 
 func _on_player_disconnected(id):
 	players.erase(id)
+	if has_winner:
+		get_tree().change_scene("res://scenes/Lobby.tscn")
 
 func _on_player_connected(connected_player_id):
 	var local_player_id = get_tree().get_network_unique_id()
