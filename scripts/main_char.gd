@@ -90,6 +90,7 @@ func _movement_loop(UP, DOWN, LEFT, RIGHT):
 		if DOWN and is_on_floor():
 			_charge()
 
+
 func _fly_control(UP, DOWN):
 	motion.y += GRAVITY
 	
